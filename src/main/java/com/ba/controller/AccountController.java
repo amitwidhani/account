@@ -37,9 +37,9 @@ public class AccountController {
 	
 	@RequestMapping( method = RequestMethod.GET, value = "/{accountId}")
 	@ResponseBody
-	public Account retrieveCustomerAccount(@PathVariable String accountId) {
-		Optional<Account> account = accounts.stream().filter(p -> p.getAccountId().equalsIgnoreCase(accountId)).findFirst();
-		return account.orElse(new Account(accountId,0));
+	public Account retrieveCustomerAccount(@PathVariable long accountId) {
+		Optional<Account> account = accounts.stream().filter(p -> p.getAccountId().equalsIgnoreCase(String.valueOf(accountId))).findFirst();
+		return account.orElse(new Account(String.valueOf(account),0));
 	}
 
 }
