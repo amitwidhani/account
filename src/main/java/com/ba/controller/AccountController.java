@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,12 +35,14 @@ public class AccountController {
 	@RequestMapping( method = RequestMethod.GET)
 	@ResponseBody
 	public List<Account> retrieveAllAccounts() {
+		logger.info("Hello retrieveAllAccounts");
 		return accounts;
 	}
 	
 	@RequestMapping( method = RequestMethod.GET, value = "/{accountId}")
 	@ResponseBody
 	public Account retrieveCustomerAccount(@PathVariable long accountId) {
+		logger.info("Hello retrieveCustomerAccount");
 		Optional<Account> account = accounts.stream().filter(p -> p.getAccountId().equalsIgnoreCase(String.valueOf(accountId))).findFirst();
 		return account.orElse(new Account(String.valueOf(account),0));
 	}
