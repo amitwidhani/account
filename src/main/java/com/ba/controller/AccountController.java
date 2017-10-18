@@ -19,6 +19,7 @@ import com.ba.domain.account.Account;
 @RequestMapping("/accounts")
 public class AccountController {
 	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private static List<Account> accounts = new ArrayList<Account>();
 	
