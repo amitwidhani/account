@@ -1,11 +1,7 @@
 package com.ba.aspects;
 
-import java.util.Arrays;
-
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -20,19 +16,15 @@ public class LoggingAspect {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Pointcut("execution(* com.ba.controller.AccountController.retrieveAllAccounts(..))")
+	@Pointcut("execution(* com.ba.controller.AccountController.*(..))")
     protected void loggingOperation() {}
   
     @Before("loggingOperation()")
     @Order(1)
     public void logJoinPoint(JoinPoint joinPoint)
     {
-    	logger.info("Join point kind : " + joinPoint.getKind());
-    	logger.info("Signature declaring type : "+ joinPoint.getSignature().getDeclaringTypeName());
-    	logger.info("Signature name : " + joinPoint.getSignature().getName());
-    	logger.info("Arguments : " + Arrays.toString(joinPoint.getArgs()));
-    	logger.info("Target class : "+ joinPoint.getTarget().getClass().getName());
-    	logger.info("This class : " + joinPoint.getThis().getClass().getName());
+    	logger.info("Entering Method :"+joinPoint.getSignature().getDeclaringTypeName()+
+    			joinPoint.getSignature().getName());
     }
       
     @AfterReturning(pointcut="loggingOperation()", returning = "result")
@@ -44,23 +36,4 @@ public class LoggingAspect {
     }
   
   
-    @Around("execution(* com.ba.controller.AccountController.retrieveAllAccounts(..))")
-    @Order(4)
-    public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable
-    {
-    	logger.info("The method " + joinPoint.getSignature().getName()+ "() begins with " + Arrays.toString(joinPoint.getArgs()));
-        try
-        {
-            Object result = joinPoint.proceed();
-            logger.info("The method " + joinPoint.getSignature().getName()+ "() ends with " + result);
-            return result;
-        } catch (IllegalArgumentException e)
-        {
-        	logger.error("Illegal argument "+ Arrays.toString(joinPoint.getArgs()) + " in "+ joinPoint.getSignature().getName() + "()");
-            throw e;
-        }      
-    }
-  
-	
-
 }
