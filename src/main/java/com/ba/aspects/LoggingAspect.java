@@ -5,7 +5,6 @@ import java.util.Arrays;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -44,15 +43,8 @@ public class LoggingAspect {
     	logger.info("Return value :"+result);
     }
   
-    @AfterThrowing(pointcut="execution(* *.*(..))", throwing = "e")
-    @Order(3)
-    public void logAfterThrowing(JoinPoint joinPoint, Throwable e)
-    {
-    	logger.error("An exception has been thrown in "+ joinPoint.getSignature().getName() + "()");
-    	logger.error("Cause :"+e.getCause());
-    }
   
-    @Around("execution(* *.*(..))")
+    @Around("execution(* com.ba.controller.AccountController.retrieveAllAccounts(..))")
     @Order(4)
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable
     {
