@@ -16,7 +16,7 @@ public class LoggingAspect {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Pointcut("execution(* com.ba.controller.AccountController.*(..))")
+	@Pointcut("execution(* com.ba.controller.*.*(..))")
     protected void loggingOperation() {}
   
     @Before("loggingOperation()")
@@ -24,7 +24,7 @@ public class LoggingAspect {
     public void logJoinPoint(JoinPoint joinPoint)
     {
     	logger.info("Entering Method :"+joinPoint.getSignature().getDeclaringTypeName()+
-    			joinPoint.getSignature().getName());
+    			"." + joinPoint.getSignature().getName());
     }
       
     @AfterReturning(pointcut="loggingOperation()", returning = "result")
@@ -32,7 +32,6 @@ public class LoggingAspect {
     public void logAfter(JoinPoint joinPoint, Object result)
     {
     	logger.info("Exiting from Method :"+joinPoint.getSignature().getName());
-    	logger.info("Return value :"+result);
     }
   
   
