@@ -21,7 +21,7 @@ public class LoggingAspect {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Pointcut("execution(* com.ba.controller.AccountController.*(..))")
+	@Pointcut("execution(* com.ba.controller.AccountController.retrieveAllAccounts(..))")
     protected void loggingOperation() {}
   
     @Before("loggingOperation()")
